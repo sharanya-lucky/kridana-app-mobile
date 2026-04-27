@@ -413,7 +413,7 @@ const StudentsAttendancePage = () => {
     setShowExportModal(false);
   };
   return (
-    <div className="w-full min-h-screen bg-white p-3 sm:p-4 pb-10">
+    <div className="w-full h-screen bg-white p-3 sm:p-4 flex flex-col overflow-hidden">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold text-[#FF6A00]">
@@ -509,7 +509,7 @@ const StudentsAttendancePage = () => {
       </div>
 
       {/* ================= MOBILE VIEW ================= */}
-      <div className="block sm:hidden space-y-3 pb-28">
+      <div className="block sm:hidden h-[42vh] overflow-y-auto overscroll-y-contain space-y-3 pb-2">
         {paginatedStudents.map((s, index) => {
           const record = draftAttendance[s.uid];
 
@@ -519,8 +519,8 @@ const StudentsAttendancePage = () => {
               className="bg-white border rounded-xl p-4 shadow-sm"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-               <div className="flex items-start gap-1 flex-1 min-w-0">
-                 <span className="w-4 shrink-0 text-sm">
+                <div className="flex items-start gap-1 flex-1 min-w-0">
+                  <span className="w-4 shrink-0 text-sm">
                     {(currentPage - 1) * itemsPerPage + index + 1}.
                   </span>
 
@@ -577,18 +577,18 @@ const StudentsAttendancePage = () => {
             </div>
           );
         })}
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={handleSaveAll}
-            disabled={!hasChanges}
-            className={`px-6 py-2 text-sm font-semibold rounded-lg text-white ${hasChanges ? "bg-[#FF6A00]" : "bg-gray-300"
-              }`}
-          >
-            Save
-          </button>
-        </div>
-      </div>
 
+      </div>
+      <div className="sticky bottom-20 bg-white pt-5 pb-3 flex justify-center sm:hidden">
+        <button
+          onClick={handleSaveAll}
+          disabled={!hasChanges}
+          className={`px-6 py-2 text-sm font-semibold rounded-lg text-white ${hasChanges ? "bg-[#FF6A00]" : "bg-gray-300"
+            }`}
+        >
+          Save
+        </button>
+      </div>
       {/* ================= DESKTOP VIEW ================= */}
       <div className="hidden sm:block border rounded-xl overflow-x-auto">
         <div className="grid grid-cols-[2.2fr_1fr_1fr_1fr_1.3fr] min-w-[700px] bg-[#1F2937] text-orange-400 font-semibold p-4">
@@ -607,7 +607,7 @@ const StudentsAttendancePage = () => {
               key={s.uid}
               className="grid grid-cols-[2.2fr_1fr_1fr_1fr_1.3fr] min-w-[700px] px-6 py-4 border-t items-center"
             >
-             <div className="flex items-start gap-1 min-w-0">
+              <div className="flex items-start gap-1 min-w-0">
                 <span className="w-5 shrink-0">
                   {(currentPage - 1) * itemsPerPage + index + 1}.
                 </span>

@@ -328,7 +328,7 @@ const EmployeeAttendancePage = () => {
     JSON.stringify(draftAttendance) !== JSON.stringify(attendance);
 
   return (
-    <div className="p-6 bg-[#f3f4f6] min-h-screen">
+   <div className="p-6 bg-[#f3f4f6] h-screen flex flex-col overflow-hidden">
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h1 className="text-3xl font-bold">Employee Attendance</h1>
@@ -379,9 +379,9 @@ const EmployeeAttendancePage = () => {
 
       {/* TABLE */}
       {/* ================= RESPONSIVE ATTENDANCE TABLE ================= */}
-      <div className="border-2 border-orange-300 rounded-xl overflow-hidden bg-white">
+   <div className="border-2 border-orange-300 rounded-xl overflow-hidden bg-white">
         {/* ================= DESKTOP VIEW ================= */}
-        <div className="hidden lg:block">
+      <div className="hidden lg:block max-h-[45vh] overflow-y-auto overscroll-y-contain">
           {/* HEADER */}
           <div className="grid grid-cols-5 bg-black text-orange-500 font-semibold px-6 py-3 text-sm">
             <div>Employee Name</div>
@@ -460,7 +460,7 @@ const EmployeeAttendancePage = () => {
         </div>
 
         {/* ================= MOBILE VIEW ================= */}
-        <div className="lg:hidden divide-y">
+     <div className="lg:hidden divide-y max-h-[45vh] overflow-y-auto overscroll-y-contain">
           {filteredEmployees.map((emp, index) => {
             const record = draftAttendance[emp.uid];
 

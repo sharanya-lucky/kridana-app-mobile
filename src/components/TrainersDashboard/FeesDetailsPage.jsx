@@ -335,7 +335,7 @@ const FeesDetailsPage = () => {
     return { total, paid, pending, paidDate, reason: "" };
   };
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-[#f3f4f6] min-h-screen max-w-7xl mx-auto">
+   <div className="p-4 sm:p-6 lg:p-8 bg-[#f3f4f6] h-screen flex flex-col overflow-hidden max-w-7xl mx-auto">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
         {/* TITLE */}
         <h1 className="text-3xl font-bold text-gray-800">Fees Details</h1>
@@ -435,9 +435,9 @@ const FeesDetailsPage = () => {
 
       {/* TABLE */}
       {/* ================= TABLE ================= */}
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+     <div className="p-4 sm:p-6 lg:p-8 bg-[#f3f4f6] h-screen flex flex-col overflow-hidden max-w-7xl mx-auto">
         {/* DESKTOP / LAPTOP VIEW */}
-        <div className="hidden lg:block">
+       <div className="hidden lg:block h-[45vh] overflow-y-auto overscroll-y-contain">
           {/* HEADER */}
           <div className="grid grid-cols-[2.2fr_2fr_1.6fr_1fr_1fr_1.2fr_1.2fr_1.3fr] bg-black text-orange-500 px-6 py-3 font-semibold text-sm">
             <div>Student</div>
@@ -501,7 +501,7 @@ const FeesDetailsPage = () => {
         </div>
 
         {/* MOBILE / TABLET VIEW */}
-        <div className="lg:hidden divide-y">
+       <div className="lg:hidden divide-y h-[45vh] overflow-y-auto overscroll-y-contain">
           {filteredRows.map((row, index) => {
             const { student, sport } = row;
             const data = getFeeData(student, sport);

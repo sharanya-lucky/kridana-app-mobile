@@ -352,7 +352,7 @@ const FeesDetailsPage = () => {
     </div>
   );
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-[#f3f4f6] min-h-screen max-w-7xl mx-auto">
+   <div className="p-4 sm:p-6 lg:p-8 bg-[#f3f4f6] h-screen overflow-hidden max-w-7xl mx-auto flex flex-col">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-6">
         {/* Page Title */}
         <h1 className="text-3xl font-bold text-gray-800">Fees Details</h1>
@@ -483,9 +483,9 @@ const FeesDetailsPage = () => {
 
       {/* TABLE */}
       {/* ================= TABLE / MOBILE RESPONSIVE ================= */}
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+     <div className="bg-white rounded-xl shadow overflow-hidden flex-1 min-h-0">
         {/* DESKTOP / TABLET TABLE */}
-        <div className="hidden lg:block">
+       <div className="hidden lg:block h-full overflow-y-auto">
           {/* HEADER */}
           <div className="grid grid-cols-8 bg-black text-orange-500 px-6 py-3 font-semibold text-sm">
             <div>Student</div>
@@ -551,7 +551,7 @@ const FeesDetailsPage = () => {
         </div>
 
         {/* MOBILE CARD VIEW */}
-        <div className="lg:hidden divide-y">
+     <div className="lg:hidden divide-y h-full overflow-y-auto">
           {filteredRows.map((row, index) => {
             const { student, sport } = row;
             const data = getFeeData(student, sport);

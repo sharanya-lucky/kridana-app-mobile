@@ -346,29 +346,7 @@ const StudentsAttendancePage = () => {
       alert("Failed to save attendance ❌ Check console");
     }
   };
-  useEffect(() => {
-    let startX = 0;
-
-    const handleTouchStart = (e) => {
-      startX = e.touches[0].clientX;
-    };
-
-    const handleTouchEnd = (e) => {
-      const endX = e.changedTouches[0].clientX;
-
-      if (endX - startX > 100) {
-        navigate(-1); // swipe right → back
-      }
-    };
-
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, []);
+  
   useEffect(() => {
     setCurrentPage(1);
   }, [
@@ -378,6 +356,7 @@ const StudentsAttendancePage = () => {
     selectedSubCategory,
     selectedBranch,
   ]);
+ 
   const handleCancel = () => {
     setDraftAttendance({ ...attendance });
   };
@@ -464,7 +443,7 @@ const StudentsAttendancePage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white p-3 sm:p-4 pb-24">
+<div className="w-full h-screen bg-white p-3 sm:p-4 flex flex-col overflow-hidden">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -581,7 +560,7 @@ const StudentsAttendancePage = () => {
       </div>
 
       {/* STUDENT CARDS (MOBILE TABLE REPLACEMENT) */}
-      <div className="space-y-3 pb-28">
+<div className="h-[42vh] overflow-y-auto overflow-x-hidden overscroll-none touch-pan-y space-y-3 pb-2">
         {paginatedStudents.map((s, index) => {
           const key = `${s.uid}||${selectedCategory}||${selectedSubCategory}`;
           const record = draftAttendance[key];
@@ -649,32 +628,28 @@ const StudentsAttendancePage = () => {
           );
         })}
         {/* SAVE BUTTON AT END */}
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={handleSaveAll}
-            disabled={!hasChanges}
-            className={`px-6 py-2 text-sm font-semibold rounded-lg text-white ${hasChanges ? "bg-[#FF6A00]" : "bg-gray-300"
-              }`}
-          >
-            Save
-          </button>
-        </div>
+        
       </div>
+   <div className="sticky bottom-20 bg-white pt-5 pb-3 flex justify-center">
+  <button
+    onClick={handleSaveAll}
+    disabled={!hasChanges}
+    className={`px-6 py-2 text-sm font-semibold rounded-lg text-white ${
+      hasChanges ? "bg-[#FF6A00]" : "bg-gray-300"
+    }`}
+  >
+    Save
+  </button>
+</div>
+
 
       {/* FIXED SAVE BUTTON (MOBILE APP STYLE) */}
 
-      {/* PAGINATION (OPTIONAL KEEP) */}
-      <div className="mt-4">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      </div>
+    
 
       {/* KEEP EXPORT MODAL EXACT SAME */}
       {showExportModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className=" bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-4 w-[90%] space-y-3">
             <h2 className="font-semibold">Export Attendance</h2>
 

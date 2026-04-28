@@ -16,8 +16,27 @@ export default function Login() {
 
   const [formData, setFormData] = useState({ emailPhone: "", password: "" });
 
-  const handleChange = (e) =>
-    setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    let value = e.target.value;
+
+    if (e.target.name === "emailPhone") {
+
+      // Only numbers → phone → 10 digits only
+      if (/^\d*$/.test(value)) {
+        value = value.slice(0, 10);
+      }
+
+      // If email typed → allow up to 50 chars
+      else {
+        value = value.slice(0, 50);
+      }
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: value
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -159,11 +178,16 @@ export default function Login() {
             <input
               type="text"
               name="emailPhone"
-              placeholder="abc123@gmail.com"
-              required
+              placeholder="Email or 10-digit phone"
+              value={formData.emailPhone}
               onChange={handleChange}
-              className="w-full mt-1 p-3 border rounded-lg 
-              focus:outline-none focus:border-[#FF6A00]"
+              onInput={(e) => {
+                if (/^\d+$/.test(e.target.value)) {
+                  e.target.value = e.target.value.slice(0, 10);
+                }
+              }}
+              maxLength={50}
+              className="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:border-[#FF6A00]"
             />
           </div>
 

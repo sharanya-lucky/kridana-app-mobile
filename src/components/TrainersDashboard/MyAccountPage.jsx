@@ -437,7 +437,12 @@ const MyAccountPage = ({ setActiveMenu }) => {
           `${b.firstName} ${b.lastName}`,
         ),
       );
-      setStudents(list);
+     list.sort((a,b)=>
+`${a.firstName} ${a.lastName}`.localeCompare(
+`${b.firstName} ${b.lastName}`
+));
+
+setStudents(list);
       setFilteredStudents(list);
     };
 
@@ -1231,13 +1236,13 @@ const MyAccountPage = ({ setActiveMenu }) => {
           </div>
 
           {/* TABLE */}
-          <div className="w-full rounded-lg border bg-white overflow-hidden">
+          <div className="w-full rounded-lg border bg-white overflow-x-auto">
             {/* TABLE HEADER */}
             <div
-              className={`grid ${statusFilter === "Left"
+              className={`min-w-[900px] grid ${statusFilter === "Left"
                 ? "grid-cols-[2.2fr_.8fr_.8fr_1fr_1.2fr_1fr_1fr_.8fr]"
                 : "grid-cols-[2.22fr_.92fr_.8fr_1fr_1.2fr_1fr_.8fr]"
-                } bg-[#1F2937] text-orange-400 font-semibold px-2 sm:px-4 md:px-6 py-3 text-[10px] sm:text-sm items-center`}
+                } bg-[#1F2937] text-orange-400 font-semibold px-4 py-3 text-sm items-center`}
             >
               <p className="min-w-[200px] md:min-w-[240px]">Name</p>
               <p className="min-w-[85px] md:min-w-[100px] text-center">Age</p>
@@ -1253,19 +1258,19 @@ const MyAccountPage = ({ setActiveMenu }) => {
             {filteredStudents.map((student, index) => (
               <div
                 key={student.id}
-                className={`grid ${statusFilter === "Left"
-                    ? "grid-cols-[2.08fr_.92fr_.8fr_1fr_1.2fr_1fr_1fr_.8fr"
+                className={`min-w-[900px] grid ${statusFilter === "Left"
+                    ? "grid-cols-[2.08fr_.92fr_.8fr_1fr_1.2fr_1fr_1fr_.8fr]"
                     : "grid-cols-[2.3fr_.8fr_.8fr_1fr_1.2fr_1fr_.8fr]"
-                  } px-2 sm:px-4 md:px-6 py-3 text-[10px] sm:text-sm items-center border-t`}
+                  } px-4 py-4 text-sm items-center border-t`}
               >
-              <p className="grid grid-cols-[16px_1fr] sm:grid-cols-[22px_1fr] gap-1 items-start leading-5 sm:leading-7">
+                <p className="grid grid-cols-[16px_1fr] sm:grid-cols-[22px_1fr] gap-1 items-start leading-5 sm:leading-7">
                   <span>{index + 1}.</span>
 
-                  <span className="break-words">
+                <span className="break-words text-xs sm:text-sm">
                     {student.firstName} {student.lastName}
                   </span>
                 </p>
-               <p className="whitespace-nowrap text-center">
+                <p className="whitespace-nowrap text-center">
                   {student.age} years
                 </p>
                 <p>{student.sports?.[0]?.belt || "-"}</p>

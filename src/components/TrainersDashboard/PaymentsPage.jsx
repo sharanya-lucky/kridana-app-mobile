@@ -19,7 +19,23 @@ export default function CreateFamily() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+const [paymentData,setPaymentData]=useState(null);
+useEffect(()=>{
+const handler=(e)=>{
+setPaymentData(e.detail);
+};
 
+window.addEventListener(
+"openPaymentDetails",
+handler
+);
+
+return ()=>window.removeEventListener(
+"openPaymentDetails",
+handler
+);
+
+},[]);
   // Fetch all students
   useEffect(() => {
     const fetchStudents = async () => {

@@ -5,13 +5,15 @@ import { useAuth } from "../../context/AuthContext";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-const TrainerDashboard = () => {
+const TrainerDashboard = ({ setView }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const [students, setStudents] = useState([]);
   const [fees, setFees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const [stats, setStats] = useState({
     total: 0,
@@ -227,60 +229,111 @@ const TrainerDashboard = () => {
         <div className="grid grid-cols-2 gap-3">
           {loading
             ? Array(4)
-                .fill(0)
-                .map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white h-40 rounded-2xl animate-pulse"
-                  ></div>
-                ))
+              .fill(0)
+              .map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white h-40 rounded-2xl animate-pulse"
+                ></div>
+              ))
             : fees.map((f, i) => {
-                const total = f.totalAmount || 0;
-                const paid = f.paidAmount || 0;
-                const pending = total - paid;
+              const total = f.totalAmount || 0;
+              const paid = f.paidAmount || 0;
+              const pending = total - paid;
 
-                return (
-                  <div
-                    key={i}
-                    className="bg-white rounded-2xl shadow-sm p-4 space-y-3 active:scale-95 transition"
-                  >
-                    {/* HEADER */}
-                    <div className="font-semibold text-gray-800 text-sm">
-                      {f.category || "General"}
-                    </div>
-
-                    {/* DATA */}
-                    <div className="space-y-1 text-sm">
-                      <Row label="Total" value={stats.totalAmount} />
-                      <Row
-                        label="Paid"
-                        value={stats.paid}
-                        color="text-green-600"
-                      />
-                      <Row
-                        label="Pending"
-                        value={stats.pending}
-                        color="text-red-500"
-                      />
-                    </div>
-
-                    {/* FOOTER */}
-                    <div className="border-t pt-3 flex justify-between items-center">
-                      <div
-                        className={`w-3 h-3 rounded-full ${
-                          pending > 0 ? "bg-orange-500" : "bg-green-500"
-                        }`}
-                      ></div>
-
-                      <button className="bg-[#FF6A00] text-white text-xs px-3 py-1 rounded-lg font-semibold">
-                        View
-                      </button>
-                    </div>
+              return (
+                <div
+                  key={i}
+                  className="bg-white rounded-2xl shadow-sm p-4 space-y-3 active:scale-95 transition"
+                >
+                  {/* HEADER */}
+                  <div className="font-semibold text-gray-800 text-sm">
+                    {students[i]?.firstName} {students[i]?.lastName}
                   </div>
-                );
-              })}
+
+                  {/* DATA */}
+                  <div className="space-y-1 text-sm">
+                    <Row label="Total" value={stats.totalAmount} />
+                    <Row
+                      label="Paid"
+                      value={stats.paid}
+                      color="text-green-600"
+                    />
+                    <Row
+                      label="Pending"
+                      value={stats.pending}
+                      color="text-red-500"
+                    />
+                  </div>
+
+                  {/* FOOTER */}
+                  <div className="border-t pt-3 flex justify-between items-center">
+                    <div
+                      className={`w-3 h-3 rounded-full ${pending > 0 ? "bg-orange-500" : "bg-green-500"
+                        }`}
+                    ></div>
+
+
+                    <button
+                      onClick={() => {
+                        setView({
+                          page: "paymentDetails",
+                          payment: {
+                            studentName:
+                              students[i]?.firstName + " " + students[i]?.lastName,
+                            paidAmount: stats.paid,
+                            totalAmount: stats.totalAmount
+                          }
+                        });
+                      }}
+                      className="bg-[#FF6A00] text-white text-xs px-3 py-1 rounded-lg font-semibold"
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
+      {showPaymentModal && selectedPayment && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+
+            <h2 className="text-lg font-bold mb-4">
+              Payment Details
+            </h2>
+
+            <p className="mb-2">
+              Category: {selectedPayment.category}
+            </p>
+
+            <p className="mb-2">
+              Total: ₹{selectedPayment.totalAmount}
+            </p>
+
+            <p className="mb-2">
+              Paid: ₹{selectedPayment.paidAmount}
+            </p>
+
+            <p className="mb-4">
+              Pending: ₹
+              {selectedPayment.totalAmount - selectedPayment.paidAmount}
+            </p>
+
+            <button
+              onClick={() => {
+                setShowPaymentModal(false);
+                setSelectedPayment(null);
+              }}
+              className="bg-[#FF6A00] text-white px-4 py-2 rounded-lg"
+            >
+              Close
+            </button>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };

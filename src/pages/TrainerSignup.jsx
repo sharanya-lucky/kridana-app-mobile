@@ -661,8 +661,8 @@ export default function TrainerSignup() {
     }
   };
 
-  const inputClass =
-    "h-11 px-3 border border-orange-400 rounded-md bg-white focus:bg-white outline-none focus:border-2 focus:border-orange-500";
+ const inputClass =
+"h-12 px-4 border border-orange-300 rounded-xl bg-white outline-none focus:border-2 focus:border-orange-500";
 
   // ⬇️ return ( … UI continues here )
 
@@ -685,7 +685,7 @@ export default function TrainerSignup() {
 
   return (
     <div className="min-h-screen flex justify-center bg-white py-10">
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 rounded-md mt-4 mb-10">
+    <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 md:px-8 lg:px-12 rounded-md mt-2 sm:mt-4 mb-8 sm:mb-10">
         {/* HEADER WITH PROFILE + CONTENT BESIDE */}
         {/* HEADER */}
         <button
@@ -695,13 +695,13 @@ export default function TrainerSignup() {
           <ArrowLeft size={18} />
           Back
         </button>
-        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
+       <div className="flex flex-col md:flex-row items-center justify-between mb-6 md:mb-10 gap-3 md:gap-6">
           {/* LEFT : Upload Profile */}
           {/* LEFT : Upload Profile */}
           <div className="flex flex-col items-center mt-6">
             <div
               onClick={() => profileInputRef.current.click()}
-              className="w-24 h-24 rounded-full bg-orange-200 flex items-center justify-center cursor-pointer overflow-hidden"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-orange-200 flex items-center justify-center cursor-pointer overflow-hidden"
             >
               {profilePreview ? (
                 <img
@@ -734,14 +734,14 @@ export default function TrainerSignup() {
 
           {/* CENTER : Title + Step + Bars */}
           <div className="flex-1 flex flex-col items-center">
-            <h2 className="text-3xl font-bold text-orange-500 ">
+           <h2 className="text-2xl sm:text-3xl font-bold text-orange-500 text-center">
               Trainer’s Registration
             </h2>
 
             <p className="text-md text-center mt-6">Step {step} to 2</p>
 
             {/* PROGRESS BARS */}
-            <div className="flex gap-3 sm:gap-4 mt-4 w-full max-w-[580px] px-2 sm:px-0">
+            <div className="flex gap-3 sm:gap-4 mt-4 w-full max-w-[300px] sm:max-w-[580px] px-2 sm:px-0">
               {[1, 2].map((s) => (
                 <div
                   key={s}
@@ -759,7 +759,7 @@ export default function TrainerSignup() {
 
         {/* STEP 1 */}
         {step === 1 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-5 mb-2">
             {[
               ["First Name*", "firstName"],
               ["Last Name*", "lastName"],
@@ -782,7 +782,7 @@ export default function TrainerSignup() {
               </div>
             ))}
 
-            <div className="col-span-2 flex flex-col">
+           <div className="sm:col-span-2 flex flex-col">
               <label className="text-sm font-semibold mb-2">
                 Add Association / Organization Name*
               </label>
@@ -991,7 +991,7 @@ export default function TrainerSignup() {
 
         {/* STEP 2 */}
         {step === 2 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-8">
+         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-5 mt-4">
             {/* Phone Number */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold mb-2">

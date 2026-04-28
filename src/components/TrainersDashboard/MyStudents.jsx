@@ -18,12 +18,12 @@ export default function TrainerStudentsPage() {
   const [editStudent, setEditStudent] = useState(null);
   const [form, setForm] = useState({});
   // 🔢 Pagination state
-const [currentPage, setCurrentPage] = useState(1);
-const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-useEffect(() => {
-  setCurrentPage(1);
-}, [students]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [students]);
 
 
   /* ==============================
@@ -50,7 +50,12 @@ useEffect(() => {
           .filter((s) => s.exists())
           .map((s) => ({ id: s.id, ...s.data() }));
 
-        setStudents(list);
+        setStudents(
+          list.sort((a, b) =>
+            (`${a.firstName || ""} ${a.lastName || ""}`).localeCompare(
+              `${b.firstName || ""} ${b.lastName || ""}`
+            ))
+        );
       } catch (err) {
         console.error("Fetch students error:", err);
       } finally {
@@ -96,29 +101,29 @@ useEffect(() => {
 
   const totalPages = Math.ceil(students.length / itemsPerPage);
 
-const paginatedStudents = students.slice(
-  (currentPage - 1) * itemsPerPage,
-  currentPage * itemsPerPage
-);
+  const paginatedStudents = students.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-const handleDeleteStudent = async (studentId) => {
-  try {
-    // 1️⃣ Delete student document
-    await deleteDoc(doc(db, "trainerstudents", studentId));
+  const handleDeleteStudent = async (studentId) => {
+    try {
+      // 1️⃣ Delete student document
+      await deleteDoc(doc(db, "trainerstudents", studentId));
 
-    // 2️⃣ Remove student ID from trainer document
-    await updateDoc(doc(db, "trainers", trainerId), {
-      students: arrayRemove(studentId),
-    });
+      // 2️⃣ Remove student ID from trainer document
+      await updateDoc(doc(db, "trainers", trainerId), {
+        students: arrayRemove(studentId),
+      });
 
-    // 3️⃣ Update UI
-    setStudents((prev) =>
-      prev.filter((s) => s.id !== studentId)
-    );
-  } catch (err) {
-    console.error("Delete student failed:", err);
-  }
-};
+      // 3️⃣ Update UI
+      setStudents((prev) =>
+        prev.filter((s) => s.id !== studentId)
+      );
+    } catch (err) {
+      console.error("Delete student failed:", err);
+    }
+  };
 
 
   return (
@@ -130,13 +135,13 @@ const handleDeleteStudent = async (studentId) => {
         <table className="min-w-full text-sm text-gray-800">
           <thead className="bg-[#f9c199] text-black">
             <tr>
-             <th className="p-3 text-left w-48">Name</th>
-<th className="p-3 text-left w-32">Category</th>
-<th className="p-3 text-left w-32">Phone</th>
-<th className="p-3 text-left w-64">Email</th>
-<th className="p-3 text-left w-24">Fee</th>
-<th className="p-3 text-left w-32">Joined</th>
-<th className="p-3 text-center w-28">Action</th>
+              <th className="p-3 text-left w-48">Name</th>
+              <th className="p-3 text-left w-32">Category</th>
+              <th className="p-3 text-left w-32">Phone</th>
+              <th className="p-3 text-left w-64">Email</th>
+              <th className="p-3 text-left w-24">Fee</th>
+              <th className="p-3 text-left w-32">Joined</th>
+              <th className="p-3 text-center w-28">Action</th>
 
             </tr>
           </thead>
@@ -146,30 +151,30 @@ const handleDeleteStudent = async (studentId) => {
 
               <tr key={s.id} className="border-b hover:bg-gray-100">
                 <td className="p-3 font-semibold w-48">
-  {s.firstName} {s.lastName}
-</td>
-<td className="p-3 w-32">{s.category}</td>
-<td className="p-3 w-32">{s.phoneNumber}</td>
-<td className="p-3 w-64">{s.email}</td>
-<td className="p-3 w-24">₹{s.feeAmount}</td>
-<td className="p-3 w-32">{s.joinedDate}</td>
-<td className="p-3 w-28 text-center">
+                  {s.firstName} {s.lastName}
+                </td>
+                <td className="p-3 w-32">{s.category}</td>
+                <td className="p-3 w-32">{s.phoneNumber}</td>
+                <td className="p-3 w-64">{s.email}</td>
+                <td className="p-3 w-24">₹{s.feeAmount}</td>
+                <td className="p-3 w-32">{s.joinedDate}</td>
+                <td className="p-3 w-28 text-center">
 
                   <div className="flex gap-2 justify-center">
-  <button
-    onClick={() => openEdit(s)}
-    className="px-4 py-1.5 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition"
-  >
-    Edit
-  </button>
+                    <button
+                      onClick={() => openEdit(s)}
+                      className="px-4 py-1.5 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition"
+                    >
+                      Edit
+                    </button>
 
-  <button
-    onClick={() => handleDeleteStudent(s.id)}
-    className="px-4 py-1.5 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
-  >
-    Delete
-  </button>
-</div>
+                    <button
+                      onClick={() => handleDeleteStudent(s.id)}
+                      className="px-4 py-1.5 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
 
                 </td>
               </tr>
@@ -186,10 +191,10 @@ const handleDeleteStudent = async (studentId) => {
         </table>
       </div>
       <Pagination
-  currentPage={currentPage}
-  totalPages={totalPages}
-  onPageChange={setCurrentPage}
-/>
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
 
 
       {/* ================= EDIT MODAL ================= */}

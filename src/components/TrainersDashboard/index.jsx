@@ -30,7 +30,7 @@ import ResetPassword from "./ResetPassword";
 import PaidRecipet from "./PaidRecipet";
 import Dashboard from "./Dashboard";
 import KYC from "./KYC";
-
+import TrainerPaymentsDetails from "./TrainerPaymentsDetails";
 import {
   collection,
   query,
@@ -356,6 +356,8 @@ const TrainersDashboard = () => {
     if (item === "My Account") return setView("myAccount");
     if (item === "Complete KYC") return setView("KYC");
     if (item === "Dashboard") return setView("Dashboard");
+    if (item === "paymentDetails")
+return setView("paymentDetails");
     if (item === "Customer & Management Settings")
       return setView("CustomerManagementSettings");
     //if (item === "Family Details") return setView("Family");
@@ -413,7 +415,13 @@ const TrainersDashboard = () => {
     if (view === "studentsAttendance") return <StudentsAttendancePage />;
     if (view === "feesDetails") return <FeesDetailsPage />;
     if (view === "addStudent") return <AddStudentDetailsPage />;
-    if (view === "paymentDetails") return <PaymentsPage />;
+if (view?.page==="paymentDetails")
+return (
+<TrainerPaymentsDetails
+setView={setView}
+payment={view.payment}
+/>
+);
     if (view === "demoClasses") return <DemoClasses />;
     if (view === "bookedDemos") return <InstituteBookedDemos />;
     if (view === "terms") return <TermsAndConditions />;
@@ -423,7 +431,9 @@ const TrainersDashboard = () => {
     if (view === "analytics") return <Reelsdata />;
     if (view === "myAccount") return <TrainerMyAccountLayout />;
     if (view === "KYC") return <KYC />;
-    if (view === "Dashboard") return <Dashboard />;
+  if (view === "Dashboard")
+return <Dashboard setView={setView} />;
+return <Dashboard setView={setView} />;
     if (view === "chatBox") return <ChatBox />;
     if (view === "timetable") return <Timetable />;
     if (view === "events")

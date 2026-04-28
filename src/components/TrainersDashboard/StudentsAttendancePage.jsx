@@ -654,17 +654,63 @@ const StudentsAttendancePage = () => {
                 )}
               </div>
             </div>
+            
           );
+          
         })}
+        
       </div>
+<Pagination
+ currentPage={currentPage}
+ totalPages={totalPages}
+ onPageChange={setCurrentPage}
+/>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+{showExportModal && (
+<div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+ <div className="bg-white rounded-2xl w-full max-w-xl p-4 sm:p-6">
+
+  <h2 className="text-lg font-semibold mb-4">
+   Export Attendance
+  </h2>
+
+  <input
+   type="date"
+   value={exportFromDate}
+   onChange={(e)=>setExportFromDate(e.target.value)}
+   className="w-full border rounded-lg p-3 mb-4"
+  />
+
+  <input
+   type="date"
+   value={exportToDate}
+   onChange={(e)=>setExportToDate(e.target.value)}
+   className="w-full border rounded-lg p-3"
+  />
+
+  <div className="flex justify-end gap-3 mt-5">
+   <button
+    onClick={()=>setShowExportModal(false)}
+    className="border px-4 py-2 rounded-lg"
+   >
+    Cancel
+   </button>
+
+   <button
+    onClick={exportAttendanceRange}
+    className="bg-[#FF6A00] text-white px-5 py-2 rounded-lg"
+   >
+    Download
+   </button>
+  </div>
+
+ </div>
+</div>
+)}
+     
     </div>
   );
+  
 };
 
 export default StudentsAttendancePage;

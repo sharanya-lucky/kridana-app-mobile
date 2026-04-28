@@ -46,10 +46,15 @@ const TrainerStudentsPage = () => {
         ),
       );
 
-      const data = snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      }));
+      const data = snap.docs
+        .map((d) => ({
+          id: d.id,
+          ...d.data(),
+        }))
+        .sort((a, b) =>
+          (a.firstName || "").trim().localeCompare(
+            (b.firstName || "").trim()
+          ));
 
       setStudents(data);
       setFiltered(data);
